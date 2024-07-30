@@ -12,16 +12,26 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+let scores, currentScore, activePlayer, playing;
 //starting conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
+const init = function () {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
 
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
 
+  diceEl.classList.add('hidden');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+};
+init();
 const switchPlayer = function () {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
   currentScore = 0;
@@ -59,7 +69,7 @@ btnHold.addEventListener('click', function () {
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
     // 2. check score if score is >= 100
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       //finish game
       playing = false;
       diceEl.classList.add('hidden');
@@ -76,3 +86,40 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+btnNew.addEventListener('click', init);
+
+/*
+btnNew.addEventListener('click', function () {
+  //1: reset scores:
+  scores[0] = 0;
+  scores[1] = 0;
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  //2: reset current score
+  currentScore = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+  //3:reset acive player
+  activePlayer = 0;
+  player0El.classList.remove('player--active');
+  player1El.classList.remove('player--active');
+  //4: remove winner class
+  player0El.classList.add('player--winner');
+  player1El.classList.remove('player--winner');
+  //5: reset styles to original
+  player0El.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+  player1El.style.backgroundColor = '';
+  //6: reset the player name colors
+  document.getElementById('name--0').style.color = '#333';
+  document.getElementById('name--1').style.color = '#333';
+  //7: reset game state
+  playing = true;
+  //8: hide the dice
+  diceEl.classList.add('hidden');
+  //9: Rest Styles
+  document.querySelector('body').style.background =
+    'linear-gradient(to top left, #753682 0%, #bf2e34 100%)';
+  document.querySelector('.number').style.width = '15rem';
+});
+*/
